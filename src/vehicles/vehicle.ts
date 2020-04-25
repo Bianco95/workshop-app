@@ -1,4 +1,5 @@
 import { InputVehicle } from "../models/inputVehicle";
+import { OperationStrategy } from "./operationStrategies/operationStrategy";
 
 export type VehicleState = "delivery" | "pending_spare" | "pending_worker" | "progress";
 
@@ -8,6 +9,8 @@ export interface Vehicle {
     getLicensePlate(): string;
     getBrand(): string;
     getModel(): string;
+    setApplicablesStrategies(strategies: OperationStrategy[]): void;
+    applyStrategy(strategyName: string):void;
     /*
     ...
     */
@@ -20,6 +23,8 @@ export abstract class AbstractVehicle implements Vehicle {
     protected brand: string;
     protected model: string;
 
+    protected applicablesStrategies: OperationStrategy[];
+
     constructor(input: InputVehicle) {
         this.brand = input.brand;
         this.model = input.model;
@@ -27,24 +32,36 @@ export abstract class AbstractVehicle implements Vehicle {
         this.state = "pending_worker";
     }
 
-    getState(): VehicleState {
+    public getState(): VehicleState {
         return this.state;
     }
 
-    setState(state: VehicleState): void {
+    public setState(state: VehicleState): void {
         this.state = state;
     }
 
-    getLicensePlate(): string {
+    public getLicensePlate(): string {
         return this.licensePlate;
     }
 
-    getBrand(): string {
+    public getBrand(): string {
         return this.brand;
     }
 
-    getModel(): string {
+    public getModel(): string {
         return this.model;
+    }
+
+    public setApplicablesStrategies(strategies: OperationStrategy[]): void {
+        this.applicablesStrategies = strategies;
+    }
+    
+    public applyStrategy(strategyName: string): void {
+        const found = this.applicablesStrategies.find(strategy=>strategy.getName() === strategyName);
+        if(!found){
+            throw new Error("Strategy not applicable");
+        }
+        found.execute(this);
     }
 
 }
