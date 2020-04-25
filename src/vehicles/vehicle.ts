@@ -11,9 +11,6 @@ export interface Vehicle {
     getModel(): string;
     setApplicablesStrategies(strategies: OperationStrategy[]): void;
     applyStrategy(strategyName: string):void;
-    /*
-    ...
-    */
 }
 
 export abstract class AbstractVehicle implements Vehicle {

@@ -1,6 +1,7 @@
 import { Vehicle } from '../vehicles/vehicle';
 import { InputVehicle, InputCar } from '../models/inputVehicle';
 import { Car } from '../vehicles/car';
+import { AppManager } from '../appManager';
 
 export class WorkShopManager{
 
@@ -19,6 +20,8 @@ export class WorkShopManager{
             case "car":
                 vehicles.push(new Car(inputVehicle as InputCar));
         }
+
+        
     }
 
 }
