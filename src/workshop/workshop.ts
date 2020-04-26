@@ -1,6 +1,6 @@
+import { WorkShopManager } from './../manager/workshopManager';
 import { BusinessOwner } from "../models/ businessOwner";
 import { Vehicle } from "../vehicles/vehicle";
-import { WorkShopManager } from "./workshopManager";
 import { AppManager } from "../manager/appManager";
 
 export class Workshop {
