@@ -32,5 +32,4 @@ export interface InputCamper extends InputVehicle {
     length: number;
     width: number;
     luxury: boolean;
-    getBudjet();
 }
