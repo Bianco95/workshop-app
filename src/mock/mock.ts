@@ -7,7 +7,8 @@ const carInput: InputCar = {
     brand: "Fiat",
     model: "500",
     type: "car",
-    steeringWheel: "Pelle"
+    steeringWheel: "Pelle",
+    wheels: ["wheel1old","wheel2old","wheel3old","wheel4old"]
 };
 
 const carInput2: InputCar = {
@@ -15,7 +16,8 @@ const carInput2: InputCar = {
     brand: "Citroen",
     model: "C3",
     type: "car",
-    steeringWheel: "Brutto"
+    steeringWheel: "Brutto",
+    wheels: ["wheel1old","wheel2old","wheel3old","wheel4old"]
 };
 
 const carInput3: InputCar = {
@@ -23,7 +25,8 @@ const carInput3: InputCar = {
     brand: "Fiat",
     model: "Alfa Romeo Giulietta",
     type: "car",
-    steeringWheel: "Spacca"
+    steeringWheel: "Spacca",
+    wheels: ["wheel1old","wheel2old","wheel3old","wheel4old"]
 };
 
 const carInput4: InputCar = {
@@ -31,7 +34,8 @@ const carInput4: InputCar = {
     brand: "Fiat",
     model: "Lamborghini",
     type: "car",
-    steeringWheel: "Spacca"
+    steeringWheel: "Spacca",
+    wheels: ["wheel1old","wheel2old","wheel3old","wheel4old"]
 };
 
 const carInput5: InputCar = {
@@ -39,7 +43,8 @@ const carInput5: InputCar = {
     brand: "Fiat",
     model: "Gallardo",
     type: "car",
-    steeringWheel: "rigido"
+    steeringWheel: "rigido",
+    wheels: ["wheel1old","wheel2old","wheel3old","wheel4old"]
 };
 
 const client: Client = {

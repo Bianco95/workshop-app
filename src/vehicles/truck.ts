@@ -3,11 +3,17 @@ import { AbstractVehicle } from "./vehicle";
 
 export class Truck extends AbstractVehicle {
 
-    public wheel : [string, string, string, string, string?, string?];
-
-    constructor(inputCar: InputTruck) {
-        super(inputCar);
-        this.wheel = ["wheel1old", "wheel2old", "wheel3old", "wheel4old"];
+    constructor(protected inputTruck: InputTruck) {
+        super(inputTruck);
     }
 
+    public setWheels(value:string[]):void{
+        value.forEach(wheelElm => {
+            this.inputTruck.wheels.push(wheelElm);
+        });
+    }
+
+    public getWheels():string[]{
+        return this.inputTruck.wheels;
+    }
 }

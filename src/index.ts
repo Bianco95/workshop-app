@@ -1,3 +1,4 @@
+import { InputCar } from './models/inputVehicle';
 import { Workshop } from "./workshop/workshop";
 import { AppManager } from './manager/appManager';
 import { clients, businessOwners, inputVehicles } from './mock/mock';
@@ -23,10 +24,11 @@ workshop1.getWorkshopManager().addVehicle(workshop1.getVehicles(), inputVehicles
 workshop1.getWorkshopManager().addVehicle(workshop1.getVehicles(), inputVehicles[4]);
 
 
-// set the fourth parameter to false to get the detail of the vehicle; if true return the number of vehicle
-console.log(JSON.stringify(appManagerInstance.getUsersVehicleWorkshop(clients[1].name, clients[1].lastname, clients[1].email, true, businessOwners[1].username),null,4));
+// set the fourth parameter to false to get the detail of the vehicle; if true return the number of vehicles
+console.log(JSON.stringify(appManagerInstance.getUsersVehicleWorkshop(clients[1].name, clients[1].lastname, clients[1].email, false, businessOwners[1].username),null,4));
 
 workshop1.getVehicles()[0].setState("pending_spare");
+
 
 //console.log(appManagerInstance.getVehiclePendingSpareOfOwner(businessOwners[1].username));
 

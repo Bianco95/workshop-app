@@ -4,29 +4,26 @@ import { AbstractVehicle } from "./vehicle";
 
 export class Motorcycle extends AbstractVehicle {
 
-    public handlebars: string;
-    public wheels:string[];
-
-    constructor(InputMotorcycle: InputMotorcycle) {
-        super(InputMotorcycle);
+    constructor(protected inputMotorcycle: InputMotorcycle) {
+        super(inputMotorcycle);
     }
 
-    public setWheels(value:string[]){
+    public setWheels(value:string[]):void{
         value.forEach(wheelElm => {
-            this.wheels.push(wheelElm);
+            this.inputMotorcycle.wheels.push(wheelElm);
         });
     }
 
     public getWheels():string[]{
-        return this.wheels;
+        return this.inputMotorcycle.wheels;
     }
 
-    public setHandlebars(value:string){
-        this.handlebars = value;
+    public setHandlebars(value:string):void{
+        this.inputMotorcycle.handlebars = value;
     }
 
     public getHandlebars():string{
-        return this.handlebars;
+        return this.inputMotorcycle.handlebars;
     }
 
     

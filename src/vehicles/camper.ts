@@ -4,37 +4,33 @@ import { AbstractVehicle } from "./vehicle";
 
 export class Camper extends AbstractVehicle {
 
-    private length: number;
-    private width: number;
-    private wheels:string[];
-
-    constructor(InputCamper: InputCamper) {
-        super(InputCamper);
+    constructor(protected inputCamper: InputCamper) {
+        super(inputCamper);
     }
 
-    public setWheels(value:string[]){
+    public setWheels(value:string[]):void{
         value.forEach(wheelElm => {
-            this.wheels.push(wheelElm);
+            this.inputCamper.wheels.push(wheelElm);
         });
     }
 
     public getWheels():string[]{
-        return this.wheels;
+        return this.inputCamper.wheels;
     }
 
-    public setLenght(value:number){
-        this.length = value;
+    public setLenght(value:number):void{
+        this.inputCamper.length = value;
     }
 
     public getLenght():number{
-        return this.length;
+        return this.inputCamper.length;
     }
 
-    public setWidth(value:number){
-        this.width = value;
+    public setWidth(value:number):void{
+        this.inputCamper.width = value;
     }
 
     public getWidth():number{
-        return this.width;
+        return this.inputCamper.width;
     }
 }

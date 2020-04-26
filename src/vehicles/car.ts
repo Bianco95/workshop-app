@@ -3,29 +3,28 @@ import { AbstractVehicle } from "./vehicle";
 
 export class Car extends AbstractVehicle {
 
-    public steeringWheel: string;
-    public wheels: string[];
 
-    constructor(inputCar: InputCar) {
+    constructor(protected inputCar: InputCar) {
         super(inputCar);
     }
 
-    public setWheels(value:string[]){
+    public setWheels(value:string[]):void{
         value.forEach(wheelElm => {
-            this.wheels.push(wheelElm);
+            this.inputCar.wheels.push(wheelElm);
         });
     }
 
     public getWheels():string[]{
-        return this.wheels;
+        return this.inputCar.wheels;
     }
 
-    public setSteeringWheel(value:string){
-        this.steeringWheel = value;
+    public setSteeringWheel(value:string):void{
+        this.inputCar.steeringWheel = value;
     }
 
     public getLenght():string{
-        return this.steeringWheel;
+        return this.inputCar.steeringWheel;
     }
+
 
 }

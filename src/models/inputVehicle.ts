@@ -7,14 +7,17 @@ export interface InputVehicle {
 
 export interface InputCar extends InputVehicle {
     steeringWheel: string;
+    wheels:string[];
 }
 
 export interface InputMotorcycle extends InputVehicle {
     handlebars: string;
+    wheels:string[];
 }
 
 export interface InputTruck extends InputVehicle {
     box: string;
+    wheels:string[];
 }
 
 export interface InputBoats extends InputVehicle {
@@ -25,7 +28,9 @@ export interface InputBoats extends InputVehicle {
 }
 
 export interface InputCamper extends InputVehicle {
+    wheels:string[];
     length: number;
     width: number;
     luxury: boolean;
+    getBudjet();
 }
