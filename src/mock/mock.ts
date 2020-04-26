@@ -19,7 +19,7 @@ const carInput2: InputCar = {
 };
 
 const carInput3: InputCar = {
-    licence_plate: "CC",
+    licence_plate: "CCUUAA",
     brand: "Fiat",
     model: "Alfa Romeo Giulietta",
     type: "car",
@@ -27,7 +27,7 @@ const carInput3: InputCar = {
 };
 
 const carInput4: InputCar = {
-    licence_plate: "CC",
+    licence_plate: "CCUUAA",
     brand: "Fiat",
     model: "Lamborghini",
     type: "car",
@@ -35,7 +35,7 @@ const carInput4: InputCar = {
 };
 
 const carInput5: InputCar = {
-    licence_plate: "CC",
+    licence_plate: "CCUUAA",
     brand: "Fiat",
     model: "Gallardo",
     type: "car",

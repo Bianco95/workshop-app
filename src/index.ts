@@ -22,12 +22,13 @@ workshop1.setBusinessOwner(businessOwners[1]);
 workshop1.getWorkshopManager().addVehicle(workshop1.getVehicles(), inputVehicles[3]);
 workshop1.getWorkshopManager().addVehicle(workshop1.getVehicles(), inputVehicles[4]);
 
-//console.log(JSON.stringify(appManagerInstance.getUsersVehicleWorkshop(clientArmaDeiCarabinieri.name, 
-//    clientArmaDeiCarabinieri.lastname, clientArmaDeiCarabinieri.email, false, businessOwner2.username),null,4));
+
+// set the fourth parameter to false to get the detail of the vehicle; if true return the number of vehicle
+console.log(JSON.stringify(appManagerInstance.getUsersVehicleWorkshop(clients[1].name, clients[1].lastname, clients[1].email, true, businessOwners[1].username),null,4));
 
 workshop1.getVehicles()[0].setState("pending_spare");
 
-console.log(appManagerInstance.getVehiclePendingSpareOfOwner(businessOwners[1].username));
+//console.log(appManagerInstance.getVehiclePendingSpareOfOwner(businessOwners[1].username));
 
 //console.log(JSON.stringify(appManagerInstance.getVehicleByLicense("CC"),null,4));
 

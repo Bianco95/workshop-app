@@ -3,9 +3,10 @@ import { Workshop } from "../workshop/workshop";
 import { Client } from "../models/client";
 import { Vehicle } from "../vehicles/vehicle";
 
+
 export interface ResultType {
     workshopName: string;
-    vehicles: InputVehicle[];
+    vehicles: InputVehicle[] | number;
 }
 
 export interface ResultType1 {
@@ -49,10 +50,10 @@ export class AppManager {
         return found.vehicles;
     }
 
-    public getUsersVehicleWorkshop(name: string, lastname: string, email: string, quantity?: boolean, businessOwnerUsername?: string): ResultType[] | ResultType1[] {
+    public getUsersVehicleWorkshop(name: string, lastname: string, email: string, quantity?: boolean, businessOwnerUsername?: string): ResultType[]  {
 
         let uservehicle: InputVehicle[] = [];
-        let result: ResultType[] | ResultType1[] = []
+        let result: ResultType[] = []
 
         let found = this.clients.find(clientElm => clientElm.name === name && clientElm.lastname === lastname && clientElm.email === email);
 
@@ -64,7 +65,6 @@ export class AppManager {
             uservehicle = workshopElm.getVehicles().reduce((accumulator, currentValue) => {
                 let find: InputVehicle;
                 if (businessOwnerUsername !== undefined) {
-                    // filtro su targa
                     find = found.vehicles.find(vehicleElm => vehicleElm.licence_plate === currentValue.getLicensePlate() && workshopElm.getBusinessOwner().username === businessOwnerUsername);
                 } else {
                     find = found.vehicles.find(vehicleElm => vehicleElm.licence_plate === currentValue.getLicensePlate());
@@ -77,16 +77,16 @@ export class AppManager {
 
             if (!quantity) {
                 if (uservehicle.length !== 0) {
-                    (result as ResultType[]).push({
+                    result.push({
                         workshopName: workshopElm.getName(),
                         vehicles: uservehicle
                     })
                 }
             } else {
                 if (uservehicle.length !== 0) {
-                    (result as ResultType1[]).push({
-                        workshopname: workshopElm.getName(),
-                        numvehicles: uservehicle.length
+                    result.push({
+                        workshopName: workshopElm.getName(),
+                        vehicles: uservehicle.length
                     })
                 }
             }
