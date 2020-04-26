@@ -1,9 +1,7 @@
-import { InputVehicle } from './models/inputVehicle';
-import { Vehicle } from './vehicles/vehicle';
-import { Workshop } from './workshop/workshop';
-import { Client } from './models/client';
-
-// dividere i metodi in base al tipo che tornano
+import { InputVehicle } from "../models/inputVehicle";
+import { Workshop } from "../workshop/workshop";
+import { Client } from "../models/client";
+import { Vehicle } from "../vehicles/vehicle";
 
 export interface ResultType {
     workshopName: string;

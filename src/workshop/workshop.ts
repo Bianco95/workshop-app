@@ -1,8 +1,7 @@
-import { BusinessOwner } from './../models/ businessOwner';
+import { BusinessOwner } from "../models/ businessOwner";
 import { Vehicle } from "../vehicles/vehicle";
 import { WorkShopManager } from "./workshopManager";
-import { AppManager } from "../appManager";
-
+import { AppManager } from "../manager/appManager";
 
 export class Workshop {
  
