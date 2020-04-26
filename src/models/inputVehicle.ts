@@ -1,18 +1,31 @@
 export interface InputVehicle {
-    type: "car" | "motorcycle" | "truck";
+    type: "car" | "motorcycle" | "truck" | "boats" | "camper";
     licence_plate: string;
     brand: string;
     model: string;
 }
 
 export interface InputCar extends InputVehicle {
-    volante: string;
+    steeringWheel: string;
 }
 
 export interface InputMotorcycle extends InputVehicle {
-    manubrio: string;
+    handlebars: string;
 }
 
 export interface InputTruck extends InputVehicle {
-    cassone: string;
+    box: string;
+}
+
+export interface InputBoats extends InputVehicle {
+    sailBoat?: boolean;
+    lenght: number;
+    width: number;
+    height: number;
+}
+
+export interface InputCamper extends InputVehicle {
+    length: number;
+    width: number;
+    luxury: boolean;
 }

@@ -3,8 +3,10 @@ import { Vehicle } from './vehicles/vehicle';
 import { Workshop } from './workshop/workshop';
 import { Client } from './models/client';
 
+// dividere i metodi in base al tipo che tornano
+
 export interface ResultType {
-    workshopname: string;
+    workshopName: string;
     vehicles: InputVehicle[];
 }
 
@@ -49,7 +51,7 @@ export class AppManager {
         return found.vehicles;
     }
 
-    public getUsersVehicleWorkshop(name: string, lastname: string, email: string, quantity?: boolean, businessOwnerusername?: string): ResultType[] | ResultType1[] {
+    public getUsersVehicleWorkshop(name: string, lastname: string, email: string, quantity?: boolean, businessOwnerUsername?: string): ResultType[] | ResultType1[] {
 
         let uservehicle: InputVehicle[] = [];
         let result: ResultType[] | ResultType1[] = []
@@ -63,8 +65,9 @@ export class AppManager {
         this.workshops.forEach(workshopElm => {
             uservehicle = workshopElm.getVehicles().reduce((accumulator, currentValue) => {
                 let find: InputVehicle;
-                if (businessOwnerusername !== undefined) {
-                    find = found.vehicles.find(vehicleElm => vehicleElm.licence_plate === currentValue.getLicensePlate() && workshopElm.getBusinessOwner().username === businessOwnerusername);
+                if (businessOwnerUsername !== undefined) {
+                    // filtro su targa
+                    find = found.vehicles.find(vehicleElm => vehicleElm.licence_plate === currentValue.getLicensePlate() && workshopElm.getBusinessOwner().username === businessOwnerUsername);
                 } else {
                     find = found.vehicles.find(vehicleElm => vehicleElm.licence_plate === currentValue.getLicensePlate());
                 }
@@ -77,7 +80,7 @@ export class AppManager {
             if (!quantity) {
                 if (uservehicle.length !== 0) {
                     (result as ResultType[]).push({
-                        workshopname: workshopElm.getName(),
+                        workshopName: workshopElm.getName(),
                         vehicles: uservehicle
                     })
                 }
@@ -93,6 +96,28 @@ export class AppManager {
 
         return result;
     }
+
+    public getVehicleByLicense(licensePlate:string){
+
+        let find: Vehicle;
+        let result: ResultType1[] = []
+        let numOfVehicles:number = 0;
+
+        this.workshops.forEach(workshopElm => {
+            find = workshopElm.getVehicles().find(vehicleElm => vehicleElm.getLicensePlate().startsWith(licensePlate,0));
+            numOfVehicles = workshopElm.getVehicles().filter(vehicleElm => vehicleElm.getLicensePlate().startsWith(licensePlate,0)).length;
+            if(find !== undefined){
+                result.push({
+                    workshopname : workshopElm.getName(),
+                    numvehicles  : numOfVehicles,
+                })
+            }
+        });
+
+        return result;
+
+    }
+
 
     public getVehiclePendingSpareOfOwner(usernameOwner:string):number{
 
