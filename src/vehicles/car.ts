@@ -3,7 +3,6 @@ import { AbstractVehicle } from "./vehicle";
 
 export class Car extends AbstractVehicle {
 
-
     constructor(protected inputCar: InputCar) {
         super(inputCar);
     }

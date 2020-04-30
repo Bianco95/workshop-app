@@ -37,3 +37,4 @@ export class Workshop {
         return this.vehicles;
     }
 }
+

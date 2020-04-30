@@ -1,0 +1,20 @@
+version: "3"
+services:
+    mongo:
+        image: mongo:4
+        ports: [
+            "27017:27017"
+        ]
+    express:
+        build:
+            context: .
+            dockerfile: ./containers/express/Dockerfile
+        links: [
+            mongo
+        ]
+        depends_on: [
+            mongo
+        ]
+        ports: [
+            "3000:3000"
+        ]

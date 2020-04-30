@@ -5,9 +5,6 @@ import { Car } from '../car';
 
 export class ChangeWheel implements OperationStrategy{
 
-    // get e set per le ruote
-
-
     private name:string;
 
     constructor(){
