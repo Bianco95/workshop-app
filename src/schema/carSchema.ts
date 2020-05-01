@@ -1,15 +1,10 @@
 import mongoose, { Document, Schema } from "mongoose";
-import { BusinessOwner } from '../models/ businessOwner';
-import { Vehicle, VehicleState } from '../vehicles/vehicle';
-import { WorkShopManager } from "../manager/workshopManager";
 import { VehicleDocument } from './vehicleSchema';
-import { ChangeWheel } from '../vehicles/operationStrategies/changewheel';
 
 export interface CarDocument extends Document, VehicleDocument{
     
     steeringWheel: string,
     wheels:string[],
-    strategies: ChangeWheel
 }
 
 export const CarSchema: Schema = new Schema({

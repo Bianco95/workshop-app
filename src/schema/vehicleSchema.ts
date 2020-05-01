@@ -1,16 +1,11 @@
 import mongoose, { Document, Schema } from "mongoose";
-import { BusinessOwner } from '../models/ businessOwner';
-import { Vehicle, VehicleState } from '../vehicles/vehicle';
-import { WorkShopManager } from "../manager/workshopManager";
-import { OperationStrategy } from "../vehicles/operationStrategies/operationStrategy";
 
 export interface VehicleDocument extends Document{
     
     state: string,
     licensePlate: string,
     brand: string,
-    mod: string,
-    strategy: OperationStrategy
+    mod: string
 }
 
 export const VehicleSchema: Schema = new Schema({

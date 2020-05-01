@@ -2,8 +2,13 @@ import { Request, Response } from "express";
 import { Query, Model } from "mongoose";
 import { AbstractRouter } from "./abstractRouter";
 import Workshop, { WorkshopDocument } from '../schema/workshopSchema';
-import { ResultType, ResultType1 } from '../manager/appManager';
+import { VehicleDocument } from "../schema/vehicleSchema";
+import Business, { BusinessDocument } from '../schema/businessSchema';
 
+export interface ResultType {
+    workshopName: string;
+    vehicles: VehicleDocument[] | number;
+}
 
 export class WorkshopRouter extends AbstractRouter {
 
@@ -12,11 +17,48 @@ export class WorkshopRouter extends AbstractRouter {
     }
 
     protected defaultListen(): void {
+
         this.router.post("/createWorkshop", (req, res) => this.createWorkshop(req, res));
         this.router.get("/", (req, res) => this.getWorkshop(req, res));
         this.router.get("/:id", (req, res) => this.findWorkshopByID(req, res));
-        this.router.post("/filterByLicense", (req, res) => this.filterByLicense(req, res))
+        this.router.post("/filterByLicense", (req, res) => this.filterByLicense(req, res));
+        this.router.post("/addOwner", (req, res) => this.addOwner(req, res))
+
     }
+
+    private async addOwner(req: Request, res: Response): Promise<void> {
+        try {
+
+            const workshopID: string = req.body.workshopID;
+
+            const workshop: WorkshopDocument = await Workshop.findById(workshopID).exec();
+            if (workshop === null) {
+                throw new Error("workshop not found");
+            }
+
+            const newBusinessOwner = new Business(req.body.BusinessOwner);
+
+            workshop.businessOwners.push(newBusinessOwner);
+           
+            workshop.save()
+
+            res.status(200).json({
+                workshops: workshop.name,
+                message: "business owner added successfully"
+            });
+           
+
+        } catch (err) {
+
+            console.error(err);
+            if (err.message === "workshop not found") {
+                this.sendResourceNotFound(res);
+            } else {
+                this.sendInternalServerError(res);
+            }
+        }
+    }
+
 
     private async filterByLicense(req: Request, res: Response): Promise<void> {
         try {
@@ -32,18 +74,18 @@ export class WorkshopRouter extends AbstractRouter {
 
             workshop.forEach(workshopElm => {
                 workshopElm.vehicles.reduce((accumulator, currentValue) => {
-                    let find = workshopElm.vehicles.filter(vehicleElm => vehicleElm.licensePlate.startsWith(req.body.licensePlate));
+                    let find = currentValue.licensePlate.startsWith(req.body.licensePlate);
                     if (find !== undefined) {
-                        accumulator.push(find);
+                        console.log(currentValue);
+                        accumulator.push(currentValue);
                     }
-                    accumulator = vehicles;
+                    result.push({
+                        workshopName: workshopElm.name,
+                        vehicles: accumulator
+                    })
                     return accumulator;
                 }, []);
-                result.push({
-                    workshopName: workshopElm.name,
-                    vehicles: vehicles
-                })
-                vehicles = [];
+                
             });
             
             res.status(200).json(result);
