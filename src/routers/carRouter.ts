@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { Query } from "mongoose";
-import { threadId } from "worker_threads";
 import Car from '../schema/carSchema';
 import { AbstractRouter } from "./abstractRouter";
+import Workshop, { WorkshopDocument } from "../schema/workshopSchema";
+import { ChangeWheel } from '../vehicles/operationStrategies/changewheel';
 import { CarDocument } from '../schema/carSchema';
 
 export class CatRouter extends AbstractRouter {
@@ -13,54 +13,73 @@ export class CatRouter extends AbstractRouter {
 
     protected defaultListen(): void {
         this.router.post("/createCar", (req, res) => this.createCar(req, res));
-        this.router.get("/", (req, res) => this.getCar(req, res));
+        this.router.post("/insertCar", (req, res) => this.insertCar(req, res));
+        this.router.post("/changeWheel", (req, res) => this.applyStrategybyLicense(req, res));
     }
 
-    private async getCar(req: Request, res: Response): Promise<void> {
-
+    private async insertCar(req: Request, res: Response): Promise<void> {
         try {
 
-            let requestedPage: number = req.query.page ? parseInt(req.query.page as string) : 1;
-            if (requestedPage <= 0) {
-                requestedPage = 1;
+            const workshopID: string = req.body.workshopID;
+
+            const workshop: WorkshopDocument = await Workshop.findById(workshopID).exec();
+            if (workshop === null) {
+                throw new Error("workshop not found");
             }
 
-            const query: Query<CarDocument[]> = Car.find({});
-            const countQuery: Query<CarDocument[]> = Car.find({});
+            const newCar = new Car(req.body.car);
 
-            const numberOfCar: number = await countQuery.count().exec();
+            workshop.vehicles.push(newCar);
 
-            const totalNumberOfPages: number = Math.ceil(numberOfCar / this.ITEMS_PER_PAGE);
-            if (requestedPage > totalNumberOfPages && totalNumberOfPages > 0) {
-                requestedPage = totalNumberOfPages;
-            }
+            workshop.save()
 
-            const cars: CarDocument[] = await query
-                .skip((requestedPage - 1) * this.ITEMS_PER_PAGE)
-                .limit(this.ITEMS_PER_PAGE)
-                .exec();
-
-            res.status(200).json({
-                cars: cars,
-                page: requestedPage,
-                pages: totalNumberOfPages
-            });
-
+            res.status(200).json(workshop.toJSON());
         } catch (err) {
-            this.printError("getAllCars", err);
-            this.showInternalError(res);
+            console.error(err);
+            if (err.message === "workshop not found") {
+                this.sendResourceNotFound(res);
+            } else {
+                this.sendInternalServerError(res);
+            }
         }
-
     }
 
+    private async applyStrategybyLicense(req: Request, res: Response): Promise<void> {
+        try {
+            const workshopID: string = req.body.workshopID;
+
+            const workshop: WorkshopDocument = await Workshop.findById(workshopID).exec();
+            if (workshop === null) {
+                throw new Error("workshop not found");
+            }
+
+            const licensePlate: string = req.body.licensePlate;
+
+            let vehicleIdx: number = workshop.vehicles.findIndex(vehicleElm => vehicleElm.licensePlate === licensePlate);
+
+            this.changeWheel(workshop, vehicleIdx);
+
+            workshop.save()
+
+            res.status(200).json(workshop.toJSON());
+
+        } catch (err) {
+
+            console.error(err);
+            if (err.message === "workshop not found") {
+                this.sendResourceNotFound(res);
+            } else {
+                this.sendInternalServerError(res);
+            }
+        }
+    }
 
     private async createCar(req: Request, res: Response): Promise<void> {
         try {
-            // create new cat with data in body
+
             const newCar = new Car(req.body);
             await newCar.save();
 
-            // object created, send confirmation and the created id
             res.status(201).json({
                 licensePlate: newCar.licensePlate.toString(),
                 message: "Successfully created"
@@ -71,10 +90,22 @@ export class CatRouter extends AbstractRouter {
         }
     }
 
+
+    private async changeWheel(workshop: WorkshopDocument, vehicleIdx): Promise<WorkshopDocument> {
+        try {
+            for (let i = 0; i < (workshop.vehicles[vehicleIdx] as CarDocument).wheels.length; i++) {
+                (workshop.vehicles[vehicleIdx] as CarDocument).wheels[i] = "wheel" + i + "new";
+            }
+
+            return workshop;
+
+        } catch (err) {
+            this.printError("some error occurred", err);
+        }
+    }
+
     printError(arg0: string, err: any) {
     }
     showInternalError(res: any) {
     }
-
-   
 }

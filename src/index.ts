@@ -3,6 +3,7 @@ import { Workshop } from "./workshop/workshop";
 import { AppManager } from './manager/appManager';
 import { clients, businessOwners, inputVehicles } from './mock/mock';
 import { App } from './App';
+
 /*
 // retrieve the instance of the appManager
 const appManagerInstance = AppManager.getInstance();
@@ -31,7 +32,8 @@ workshop1.getWorkshopManager().addVehicle(workshop1.getVehicles(), inputVehicles
 console.log(JSON.stringify(workshop,null,4))
 
 workshop1.getVehicles()[0].setState("pending_spare");
-*/
+
+//workshop1.getVehicles()[0].applyStrategy("changeWheel");
 
 //console.log(appManagerInstance.getVehiclePendingSpareOfOwner(businessOwners[1].username));
 
@@ -41,6 +43,8 @@ workshop1.getVehicles()[0].setState("pending_spare");
 //metto in ascolto ilserver web sulla porta 3000
 // che viene eseguita dopo che il server web si è messo in ascolto
 // e quello che fa è il console log
+*/
+
 
 
 const server = new App();

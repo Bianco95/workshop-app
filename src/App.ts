@@ -3,6 +3,7 @@ import express from "express";
 import mongoose from 'mongoose';
 import { WorkshopRouter } from './routers/workshopRouter';
 import { BusinessManagerRouter } from "./routers/businessManagerRouter";
+import { CatRouter } from './routers/carRouter';
 
 export class App {
 
@@ -39,6 +40,7 @@ export class App {
     private handleRoutes(): void {
         this.express.use(`/${this.VERSION}/workshops`, new WorkshopRouter().getRouter());
         this.express.use(`/${this.VERSION}/businessManager`, new BusinessManagerRouter().getRouter());
+        this.express.use(`/${this.VERSION}/car`, new CatRouter().getRouter());
     }
 
     public startServer(): void {

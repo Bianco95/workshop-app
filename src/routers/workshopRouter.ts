@@ -1,10 +1,9 @@
 import { Request, Response } from "express";
 import { Query, Model } from "mongoose";
-import { threadId } from "worker_threads";
-import Car from '../schema/carSchema';
 import { AbstractRouter } from "./abstractRouter";
-import { CarDocument } from '../schema/carSchema';
 import Workshop, { WorkshopDocument } from '../schema/workshopSchema';
+import { ResultType, ResultType1 } from '../manager/appManager';
+
 
 export class WorkshopRouter extends AbstractRouter {
 
@@ -16,16 +15,54 @@ export class WorkshopRouter extends AbstractRouter {
         this.router.post("/createWorkshop", (req, res) => this.createWorkshop(req, res));
         this.router.get("/", (req, res) => this.getWorkshop(req, res));
         this.router.get("/:id", (req, res) => this.findWorkshopByID(req, res));
+        this.router.post("/filterByLicense", (req, res) => this.filterByLicense(req, res))
+    }
+
+    private async filterByLicense(req: Request, res: Response): Promise<void> {
+        try {
+
+            const workshop = await Workshop.find({}).exec();
+
+            if (workshop === null) {
+                throw new Error("no car with this license has been found");
+            }
+
+            let result: ResultType[] = []
+            let vehicles = [];
+
+            workshop.forEach(workshopElm => {
+                workshopElm.vehicles.reduce((accumulator, currentValue) => {
+                    let find = workshopElm.vehicles.filter(vehicleElm => vehicleElm.licensePlate.startsWith(req.body.licensePlate));
+                    if (find !== undefined) {
+                        accumulator.push(find);
+                    }
+                    accumulator = vehicles;
+                    return accumulator;
+                }, []);
+                result.push({
+                    workshopName: workshopElm.name,
+                    vehicles: vehicles
+                })
+                vehicles = [];
+            });
+            
+            res.status(200).json(result);
+            
+        }catch(err){
+            console.error(err);
+            if (err.message === "no car with this license has been found") {
+                this.sendResourceNotFound(res);
+            } else {
+                this.sendInternalServerError(res);
+            }
+        }
     }
 
     private async findWorkshopByID(req: Request, res: Response): Promise<void> {
         try {
-
-            const workshopModel: Model<WorkshopDocument> = res.locals.models.workshopModel;
-
             const requestedId: string = req.params.id;
 
-            const workshop: WorkshopDocument = await workshopModel.findById(requestedId).exec();
+            const workshop: WorkshopDocument = await Workshop.findById(requestedId).exec();
             if (workshop === null) {
                 throw new Error("workshop not found");
             }
@@ -53,7 +90,11 @@ export class WorkshopRouter extends AbstractRouter {
             const query: Query<WorkshopDocument[]> = Workshop.find({});
             const countQuery: Query<WorkshopDocument[]> = Workshop.find({});
 
-
+            const requestedName: string = req.query.name ? (req.query.name as string) : null;
+            if (requestedName !== null) {
+                query.where('name', requestedName)
+                countQuery.where('name', requestedName)
+            }
 
             const numberOfWorkshop: number = await countQuery.count().exec();
 
@@ -66,7 +107,6 @@ export class WorkshopRouter extends AbstractRouter {
                 .skip((requestedPage - 1) * this.ITEMS_PER_PAGE)
                 .limit(this.ITEMS_PER_PAGE)
                 .exec();
-
 
             res.status(200).json({
                 workshops: workshops,
@@ -83,11 +123,10 @@ export class WorkshopRouter extends AbstractRouter {
 
     private async createWorkshop(req: Request, res: Response): Promise<void> {
         try {
-            // create new cat with data in body
+
             const newWorkshop = new Workshop(req.body);
             await newWorkshop.save();
 
-            // object created, send confirmation and the created id
             res.status(201).json({
                 workshopName: newWorkshop.name.toString(),
                 message: "Successfully created"
@@ -100,8 +139,9 @@ export class WorkshopRouter extends AbstractRouter {
 
     printError(arg0: string, err: any) {
     }
+
     showInternalError(res: any) {
     }
 
-   
+
 }
