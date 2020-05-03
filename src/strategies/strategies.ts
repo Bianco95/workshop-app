@@ -19,6 +19,7 @@ export class Strategies{
             for (let i = 0; i < (workshop.vehicles[vehicleIdx] as CarDocument).wheels.length; i++) {
                 (workshop.vehicles[vehicleIdx] as CarDocument).wheels[i] = "wheel" + i + "new";
             }
+            (workshop.vehicles[vehicleIdx] as CarDocument).state = "delivery";
             return workshop;
         } catch (err) {
             return err;
@@ -29,9 +30,12 @@ export class Strategies{
 
         try {
             (workshop.vehicles[vehicleIdx] as CarDocument).steeringWheel = steeringWheel;
+            (workshop.vehicles[vehicleIdx] as CarDocument).state = "delivery";
         } catch (err) {
             return err;
         }
     }
+
+
 
 }

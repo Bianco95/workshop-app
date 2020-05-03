@@ -117,6 +117,7 @@ BODY ->
 
 
 ------------------STEP 8---------------------
+
 CHANGE STEERING WHEEL OF A VEHICLE USING THE 
 LICENSE PLATE OF THE VEHICLE AND THE TYPE OF
 THE NEW STEERING WHEEL
@@ -127,3 +128,5 @@ BODY ->
     "licensePlate":"CCBT551",
     "steeringWheel":"plastic"
 }
+
+---------------------------------------------
