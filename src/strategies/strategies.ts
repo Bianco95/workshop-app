@@ -14,17 +14,22 @@ export class Strategies{
     }
 
     public async changeWheel(workshop: WorkshopDocument, vehicleIdx): Promise<WorkshopDocument> {
-        
-        try {
 
+        try {
             for (let i = 0; i < (workshop.vehicles[vehicleIdx] as CarDocument).wheels.length; i++) {
                 (workshop.vehicles[vehicleIdx] as CarDocument).wheels[i] = "wheel" + i + "new";
             }
-
             return workshop;
-
         } catch (err) {
-            
+            return err;
+        }
+    }
+
+    public async changeSteeringWheel(workshop: WorkshopDocument, vehicleIdx: number, steeringWheel:string): Promise<WorkshopDocument> {
+
+        try {
+            (workshop.vehicles[vehicleIdx] as CarDocument).steeringWheel = steeringWheel;
+        } catch (err) {
             return err;
         }
     }

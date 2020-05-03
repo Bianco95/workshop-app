@@ -14,7 +14,8 @@ export class CatRouter extends AbstractRouter {
     protected defaultListen(): void {
         this.router.post("/createCar", (req, res) => this.createCar(req, res));
         this.router.post("/insertCar", (req, res) => this.insertCar(req, res));
-        this.router.post("/changeWheel", (req, res) => this.applyChangeWheelbyLicense(req, res));
+        this.router.put("/changeWheel", (req, res) => this.applyChangeWheelbyLicense(req, res));
+        this.router.put("/changeSteeringWheel", (req, res) => this.applyChangeSteeringWheelbyLicense(req, res));
     }
 
     private async insertCar(req: Request, res: Response): Promise<void> {
@@ -50,12 +51,16 @@ export class CatRouter extends AbstractRouter {
 
             const workshop: WorkshopDocument = await Workshop.findById(workshopID).exec();
             if (workshop === null) {
-                throw new Error("workshop not found");
+                throw new Error("resource not found");
             }
 
             const licensePlate: string = req.body.licensePlate;
 
             let vehicleIdx: number = workshop.vehicles.findIndex(vehicleElm => vehicleElm.licensePlate === licensePlate);
+
+            if(vehicleIdx === null){
+                throw new Error("resource not found");
+            }
 
             Strategies.getInstance().changeWheel(workshop, vehicleIdx);
 
@@ -65,8 +70,47 @@ export class CatRouter extends AbstractRouter {
 
         } catch (err) {
 
-            console.error(err);
-            if (err.message === "workshop not found") {
+            if (err.message === "resource not found") {
+                this.sendResourceNotFound(res);
+            } else {
+                this.sendInternalServerError(res);
+            }
+        }
+    }
+
+    private async applyChangeSteeringWheelbyLicense(req: Request, res: Response): Promise<void> {
+        try {
+            const workshops: WorkshopDocument[] = await Workshop.find({}).exec();
+            if (workshops === null) {
+                throw new Error("resource not found");
+            }
+
+            const licensePlate: string = req.body.licensePlate;
+            const steeringWheel: string = req.body.steeringWheel;
+
+            let vehicleIdx: number = 0;
+            let workshopToModify: WorkshopDocument;
+
+            workshops.forEach(workshopElm => {
+                vehicleIdx = workshopElm.vehicles.findIndex(vehicleElm => vehicleElm.licensePlate === licensePlate);
+                if(vehicleIdx !== null){
+                    workshopToModify = workshopElm;
+                }
+            });
+
+            if(vehicleIdx === null){
+                throw new Error("resource not found");
+            }
+
+            Strategies.getInstance().changeSteeringWheel(workshopToModify, vehicleIdx, steeringWheel);
+
+            await Workshop.findByIdAndUpdate(workshopToModify._id, workshopToModify).exec();
+
+            res.status(201).json(workshopToModify.toJSON());
+
+        } catch (err) {
+
+            if (err.message === "resource not found") {
                 this.sendResourceNotFound(res);
             } else {
                 this.sendInternalServerError(res);
@@ -87,20 +131,6 @@ export class CatRouter extends AbstractRouter {
         } catch (err) {
             this.printError("createUser", err);
             this.showInternalError(res);
-        }
-    }
-
-
-    private async changeWheel(workshop: WorkshopDocument, vehicleIdx): Promise<WorkshopDocument> {
-        try {
-            for (let i = 0; i < (workshop.vehicles[vehicleIdx] as CarDocument).wheels.length; i++) {
-                (workshop.vehicles[vehicleIdx] as CarDocument).wheels[i] = "wheel" + i + "new";
-            }
-
-            return workshop;
-
-        } catch (err) {
-            this.printError("some error occurred", err);
         }
     }
 

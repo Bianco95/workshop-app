@@ -1,11 +1,92 @@
+{
+    "name": "frankie garage",
+    "vehicles": [
+        {
+            "brand": "Fiat",
+            "mod": "500",
+            "licensePlate": "car1",
+            "state": "pending_worker",
+            "inputCar": {
+                "licence_plate": "car1",
+                "brand": "Fiat",
+                "model": "500",
+                "type": "car",
+                "steeringWheel": "Pelle",
+                "wheels": [
+                    "wheel1old",
+                    "wheel2old",
+                    "wheel3old",
+                    "wheel4old"
+                ]
+            }
+        }
+    ],
+    "workshopManger": {},
+    "businessOwner": {
+        "name": "Arturo",
+        "surname": "Lebuche",
+        "username": "Arturo90"
+    }
+}
+
+
+{
+    "workshopID":"5eaade9844abdb00108ed926",
+    "car":{
+        "state" : "pending_worker",
+        "licensePlate" : "car1",
+        "brand" : "Fiat",
+        "mod": "500",
+        "steeringWheel": "pelle",
+        "wheels":["wheel1old","wheel2old","wheel3old","wheel4old"]
+    }
+
+}
+
+
+{
+    "name": "frankiegarage",
+    "vehicles": [],
+    "workshopManger": {},
+    "businessOwner": {
+        "name": "Arturo",
+        "surname": "Lebuche",
+        "username": "Arturo90"
+    }
+}
+
+{
+    "workshopID":"5eaade9844abdb00108ed926",
+    "car":{
+        "state" : "pending_worker",
+        "licensePlate" : "CC-UUUUU",
+        "brand" : "Fiat",
+        "mod": "500",
+        "steeringWheel": "pelle",
+        "wheels":["wheel1old","wheel2old","wheel3old","wheel4old"]
+    }
+    
+}
+
+
+{
+    "licencePlate":"CC"
+}
+
+
+
+{
+    "workshopID":"5eaade9844abdb00108ed926",
+    "licensePlate":"CC-UUUUU"
+}
+
+
 ------------------STEP 0---------------------
 
-- clone the workshop-routes branch
 - npm i
 - npm run docker
 - install and run postman to make http request
 
----------------------------------------------
 
 ------------------STEP 1---------------------
 
@@ -24,10 +105,11 @@ BODY ->
 
 ---------------------------------------------
 
+
 ------------------STEP 2---------------------
 
 ADD AN OWNER TO THE WORKSHOP (TAKE THE ID OF THE WORKSHOP
-THAT MONGODB HAS ASSIGNED TO IT AUTOMATICALLY)
+THAT MONGODB HAS ASSIGNED AUTOMATICALLY)
 
 WITH POSTMAN
 
@@ -67,6 +149,7 @@ BODY ->
 
 ---------------------------------------------
 
+
 ------------------STEP 4---------------------
 
 RETRIEVE ALL THE VEHICLES THAT START WITH (ex. "CC") AND 
@@ -81,6 +164,7 @@ BODY ->
 }
 
 ---------------------------------------------
+
 
 ------------------STEP 5---------------------
 
@@ -105,7 +189,7 @@ GET -> localhost:3000/v1/workshops/?name=frankiegarage
 CHANGE WHEELS OF A VEHICLE USING THE 
 LICENSE PLATE OF THE VEHICLE AND THE WORKSHOP ID
 
-POST -> localhost:3000/v1/car/changeWheel
+PUT -> localhost:3000/v1/car/changeWheel
 BODY ->
 {
     "workshopID": "5eac1df97e5b4800113ac524",
@@ -113,3 +197,16 @@ BODY ->
 }
 
 ---------------------------------------------
+
+
+------------------STEP 8---------------------
+CHANGE STEERING WHEEL OF A VEHICLE USING THE 
+LICENSE PLATE OF THE VEHICLE AND THE TYPE OF
+THE NEW STEERING WHEEL
+
+PUT -> localhost:3000/v1/car/changeSteeringWheel
+BODY ->
+{
+    "licensePlate":"CCBT551",
+    "steeringWheel":"plastic"
+}
