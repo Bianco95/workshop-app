@@ -3,6 +3,7 @@ import Car from '../schema/carSchema';
 import { AbstractRouter } from "./abstractRouter";
 import Workshop, { WorkshopDocument } from "../schema/workshopSchema";
 import { CarDocument } from '../schema/carSchema';
+import { Strategies } from '../strategies/strategies';
 
 export class CatRouter extends AbstractRouter {
 
@@ -13,7 +14,7 @@ export class CatRouter extends AbstractRouter {
     protected defaultListen(): void {
         this.router.post("/createCar", (req, res) => this.createCar(req, res));
         this.router.post("/insertCar", (req, res) => this.insertCar(req, res));
-        this.router.post("/changeWheel", (req, res) => this.applyStrategybyLicense(req, res));
+        this.router.post("/changeWheel", (req, res) => this.applyChangeWheelbyLicense(req, res));
     }
 
     private async insertCar(req: Request, res: Response): Promise<void> {
@@ -43,7 +44,7 @@ export class CatRouter extends AbstractRouter {
         }
     }
 
-    private async applyStrategybyLicense(req: Request, res: Response): Promise<void> {
+    private async applyChangeWheelbyLicense(req: Request, res: Response): Promise<void> {
         try {
             const workshopID: string = req.body.workshopID;
 
@@ -56,11 +57,11 @@ export class CatRouter extends AbstractRouter {
 
             let vehicleIdx: number = workshop.vehicles.findIndex(vehicleElm => vehicleElm.licensePlate === licensePlate);
 
-            this.changeWheel(workshop, vehicleIdx);
+            Strategies.getInstance().changeWheel(workshop, vehicleIdx);
 
-            workshop.save()
+            await Workshop.findByIdAndUpdate(workshopID, workshop).exec();
 
-            res.status(200).json(workshop.toJSON());
+            res.status(201).json(workshop.toJSON());
 
         } catch (err) {
 
