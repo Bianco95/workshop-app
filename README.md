@@ -108,8 +108,8 @@ LICENSE PLATE OF THE VEHICLE AND THE WORKSHOP ID
 `
 
 <b>put url:</b> localhost:3000/v1/car/changeWheel
+<b>body</b>
 ```
-BODY ->
 {
     "workshopID": "5eac1df97e5b4800113ac524",
     "licensePlate":"CCBT551"
