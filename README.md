@@ -1,37 +1,34 @@
-<h1>------------------STEP 0---------------------</h1>
+### step 0 
 
+```
 - npm i
 - npm run docker
 - install and run postman to make http request
+```
+### step 1
 
-
-------------------STEP 1---------------------
-
-CREATE A WORKSHOP
-
+`CREATE A WORKSHOP
 WITH POSTMAN
-
-POST -> localhost:3000/v1/workshops/createWorkshop
-BODY ->
-
+`
+<b>post url:</b>  <a>localhost:3000/v1/workshops/createWorkshop</a>
+<b>body</b> 
+```
 {
     "name": "frankiegarage",
     "vehicles": [],
     "businessOwner": []
 }
+```
 
----------------------------------------------
-
-
-------------------STEP 2---------------------
-
+### step 2
+`
 ADD AN OWNER TO THE WORKSHOP (TAKE THE ID OF THE WORKSHOP
 THAT MONGODB HAS ASSIGNED AUTOMATICALLY)
+`
 
-WITH POSTMAN
-
-POST -> localhost:3000/v1/workshops/addOwner
-BODY ->
+<b>post url:</b>  <a>localhost:3000/v1/workshops/addOwner</a>
+<b>body</b>
+```
 {
     "workshopID": "5eac1df97e5b4800113ac524",
     "BusinessOwner": {
@@ -40,18 +37,19 @@ BODY ->
         "username" :"Lewis96"
     }
 }
-
+```
 ---------------------------------------------
 
-------------------STEP 3---------------------
-
+### step 3
+`
 ADD A VEHICLE TO THE GARAGE (TAKE THE ID OF THE GARAGE
 THAT MONGODB HAS ASSIGNED AUTOMATICALLY)
+`
 
-WITH POSTMAN
+<b>post url:</b>  <a>localhost:3000/v1/car/insertCar</a>
+<b>body</b> 
 
-POST -> localhost:3000/v1/car/insertCar
-BODY ->
+```
 {
     "workshopID": "5eac1df97e5b4800113ac524",
     "car":{
@@ -63,69 +61,76 @@ BODY ->
         "wheels":["wheel1old","wheel2old","wheel3old","wheel4old"]
     }
 }
-
+```
 ---------------------------------------------
 
-
-------------------STEP 4---------------------
-
+### step 4
+`
 RETRIEVE ALL THE VEHICLES THAT START WITH (ex. "CC") AND 
 THE WORKSHOP WHERE THEY ARE ALLOCATED
+`
 
-WITH POSTMAN
-
-POST -> localhost:3000/v1/car/filterByLicense
-BODY ->
+<b>post url:</b>  <a>localhost:3000/v1/car/filterByLicense</a>
+<b>body</b>  
+```
 {
     "licensePlate":"CC"
 }
-
+```
 ---------------------------------------------
 
 
-------------------STEP 5---------------------
-
+### step 5
+`
 RETRIEVE ALL WORKSHOPS
 WITH POSTMAN
+`
 
-GET -> localhost:3000/v1/workshops/
+<b>get url:</b>  <a>localhost:3000/v1/workshops/</a>
 
 ---------------------------------------------
 
-------------------STEP 6---------------------
-
+### step 6
+`
 RETRIEVE ALL WORKSHOPS USING NAME
 WITH POSTMAN
+`
 
-GET -> localhost:3000/v1/workshops/?name=frankiegarage
+<b>get url:</b> <a>localhost:3000/v1/workshops/?name=frankiegarage</a>
 
 ---------------------------------------------
 
-------------------STEP 7---------------------
+### step 7
 
+`
 CHANGE WHEELS OF A VEHICLE USING THE 
 LICENSE PLATE OF THE VEHICLE AND THE WORKSHOP ID
+`
 
-PUT -> localhost:3000/v1/car/changeWheel
+<b>put url:</b> localhost:3000/v1/car/changeWheel
+```
 BODY ->
 {
     "workshopID": "5eac1df97e5b4800113ac524",
     "licensePlate":"CCBT551"
 }
-
+```
 ---------------------------------------------
 
-------------------STEP 8---------------------
+### step 8
 
+`
 CHANGE STEERING WHEEL OF A VEHICLE USING THE 
 LICENSE PLATE OF THE VEHICLE AND THE TYPE OF
 THE NEW STEERING WHEEL
+`
 
-PUT -> localhost:3000/v1/car/changeSteeringWheel
-BODY ->
+<b>put url:</b> localhost:3000/v1/car/changeSteeringWheel
+<b>body</b>
+```
 {
     "licensePlate":"CCBT551",
     "steeringWheel":"plastic"
 }
-
+```
 ---------------------------------------------
