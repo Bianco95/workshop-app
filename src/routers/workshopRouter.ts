@@ -69,8 +69,7 @@ export class WorkshopRouter extends AbstractRouter {
                 throw new Error("no car with this license has been found");
             }
 
-            let result: ResultType[] = []
-            let vehicles = [];
+            let result: ResultType[] = [];
 
             workshop.forEach(workshopElm => {
                 workshopElm.vehicles.reduce((accumulator, currentValue) => {
