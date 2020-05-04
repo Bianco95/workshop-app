@@ -5,6 +5,8 @@
 - npm run docker
 - install and run postman to make http request
 ```
+---------------------------------------------
+
 ### step 1
 
 `CREATE A WORKSHOP
@@ -19,6 +21,7 @@ WITH POSTMAN
     "businessOwner": []
 }
 ```
+---------------------------------------------
 
 ### step 2
 `
