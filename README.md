@@ -12,7 +12,7 @@
 `CREATE A WORKSHOP
 WITH POSTMAN
 `
-<b>post url:</b>  <a>localhost:3000/v1/workshops/createWorkshop</a>
+<b>post url:</b>  localhost:3000/v1/workshops/createWorkshop
 
 <b>body</b> 
 ```
@@ -30,7 +30,7 @@ ADD AN OWNER TO THE WORKSHOP (TAKE THE ID OF THE WORKSHOP
 THAT MONGODB HAS ASSIGNED AUTOMATICALLY)
 `
 
-<b>post url:</b>  <a>localhost:3000/v1/workshops/addOwner</a>
+<b>post url:</b>  localhost:3000/v1/workshops/addOwner
 
 <b>body</b>
 ```
@@ -51,7 +51,7 @@ ADD A VEHICLE TO THE GARAGE (TAKE THE ID OF THE GARAGE
 THAT MONGODB HAS ASSIGNED AUTOMATICALLY)
 `
 
-<b>post url:</b>  <a>localhost:3000/v1/car/insertCar</a>
+<b>post url:</b>  localhost:3000/v1/car/insertCar
 
 <b>body</b> 
 
@@ -76,7 +76,7 @@ RETRIEVE ALL THE VEHICLES THAT START WITH (ex. "CC") AND
 THE WORKSHOP WHERE THEY ARE ALLOCATED
 `
 
-<b>post url:</b>  <a>localhost:3000/v1/car/filterByLicense</a>
+<b>post url:</b>  localhost:3000/v1/car/filterByLicense
 
 <b>body</b>  
 ```
@@ -93,7 +93,7 @@ RETRIEVE ALL WORKSHOPS
 WITH POSTMAN
 `
 
-<b>get url:</b>  <a>localhost:3000/v1/workshops/</a>
+<b>get url:</b>  localhost:3000/v1/workshops/
 
 ---------------------------------------------
 
@@ -103,7 +103,7 @@ RETRIEVE ALL WORKSHOPS USING NAME
 WITH POSTMAN
 `
 
-<b>get url:</b> <a>localhost:3000/v1/workshops/?name=frankiegarage</a>
+<b>get url:</b> localhost:3000/v1/workshops/?name=frankiegarage
 
 ---------------------------------------------
 
